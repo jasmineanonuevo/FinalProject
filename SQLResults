@@ -1,0 +1,265 @@
+Assignment: SQL Notebook for Peer Assignment
+Estimated time needed: 60 minutes.
+
+Introduction
+Using this Python notebook you will:
+
+Understand the Spacex DataSet
+Load the dataset into the corresponding table in a Db2 database
+Execute SQL queries to answer assignment questions
+Overview of the DataSet
+SpaceX has gained worldwide attention for a series of historic milestones.
+
+It is the only private company ever to return a spacecraft from low-earth orbit, which it first accomplished in December 2010. SpaceX advertises Falcon 9 rocket launches on its website with a cost of 62 million dollars wheras other providers cost upward of 165 million dollars each, much of the savings is because Space X can reuse the first stage.
+
+Therefore if we can determine if the first stage will land, we can determine the cost of a launch.
+
+This information can be used if an alternate company wants to bid against SpaceX for a rocket launch.
+
+This dataset includes a record for each payload carried during a SpaceX mission into outer space.
+
+Download the datasets
+This assignment requires you to load the spacex dataset.
+
+In many cases the dataset to be analyzed is available as a .CSV (comma separated values) file, perhaps on the internet. Click on the link below to download and save the dataset (.CSV file):
+
+Spacex DataSet
+
+Store the dataset in database table
+it is highly recommended to manually load the table using the database console LOAD tool in DB2.
+
+
+Now open the Db2 console, open the LOAD tool, Select / Drag the .CSV file for the dataset, Next create a New Table, and then follow the steps on-screen instructions to load the data. Name the new table as follows:
+
+SPACEXDATASET
+
+Follow these steps while using old DB2 UI which is having Open Console Screen
+
+Note:While loading Spacex dataset, ensure that detect datatypes is disabled. Later click on the pencil icon(edit option).
+
+Change the Date Format by manually typing DD-MM-YYYY and timestamp format as DD-MM-YYYY HH:MM:SS.
+
+Here you should place the cursor at Date field and manually type as DD-MM-YYYY.
+
+Change the PAYLOAD_MASS__KG_ datatype to INTEGER.
+
+
+Changes to be considered when having DB2 instance with the new UI having Go to UI screen
+
+Refer to this insruction in this link for viewing the new Go to UI screen.
+
+Later click on Data link(below SQL) in the Go to UI screen and click on Load Data tab.
+
+Later browse for the downloaded spacex file.
+
+
+Once done select the schema andload the file.
+
+!pip install sqlalchemy==1.3.9
+!pip install ibm_db_sa
+!pip install ipython-sql
+Collecting sqlalchemy==1.3.9
+  Downloading SQLAlchemy-1.3.9.tar.gz (6.0 MB)
+     |████████████████████████████████| 6.0 MB 13.2 MB/s eta 0:00:01
+Building wheels for collected packages: sqlalchemy
+  Building wheel for sqlalchemy (setup.py) ... done
+  Created wheel for sqlalchemy: filename=SQLAlchemy-1.3.9-cp38-cp38-linux_x86_64.whl size=1209513 sha256=da1a58a68d2dfeae10dd7375d9e0000a488cfa33947e59cb4670472dc945b498
+  Stored in directory: /tmp/wsuser/.cache/pip/wheels/cb/43/46/fa638f2422554332b7865d600275b24568bf60e76104a94bb4
+Successfully built sqlalchemy
+Installing collected packages: sqlalchemy
+  Attempting uninstall: sqlalchemy
+    Found existing installation: SQLAlchemy 1.4.22
+    Uninstalling SQLAlchemy-1.4.22:
+      Successfully uninstalled SQLAlchemy-1.4.22
+Successfully installed sqlalchemy-1.3.9
+Requirement already satisfied: ibm_db_sa in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (0.3.7)
+Requirement already satisfied: ibm-db>=2.0.0 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ibm_db_sa) (3.0.4)
+Requirement already satisfied: sqlalchemy>=0.7.3 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ibm_db_sa) (1.3.9)
+Collecting ipython-sql
+  Downloading ipython_sql-0.4.0-py3-none-any.whl (19 kB)
+Collecting sqlparse
+  Downloading sqlparse-0.4.2-py3-none-any.whl (42 kB)
+     |████████████████████████████████| 42 kB 2.2 MB/s  eta 0:00:01
+Requirement already satisfied: ipython-genutils>=0.1.0 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython-sql) (0.2.0)
+Requirement already satisfied: ipython>=1.0 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython-sql) (7.27.0)
+Collecting prettytable<1
+  Downloading prettytable-0.7.2.zip (28 kB)
+Requirement already satisfied: sqlalchemy>=0.6.7 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython-sql) (1.3.9)
+Requirement already satisfied: six in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython-sql) (1.15.0)
+Requirement already satisfied: pygments in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (2.9.0)
+Requirement already satisfied: decorator in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (5.0.9)
+Requirement already satisfied: matplotlib-inline in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (0.1.2)
+Requirement already satisfied: backcall in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (0.2.0)
+Requirement already satisfied: pickleshare in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (0.7.5)
+Requirement already satisfied: pexpect>4.3 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (4.8.0)
+Requirement already satisfied: setuptools>=18.5 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (52.0.0.post20211006)
+Requirement already satisfied: jedi>=0.16 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (0.17.2)
+Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (3.0.20)
+Requirement already satisfied: traitlets>=4.2 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from ipython>=1.0->ipython-sql) (5.0.5)
+Requirement already satisfied: parso<0.8.0,>=0.7.0 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from jedi>=0.16->ipython>=1.0->ipython-sql) (0.7.0)
+Requirement already satisfied: ptyprocess>=0.5 in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from pexpect>4.3->ipython>=1.0->ipython-sql) (0.7.0)
+Requirement already satisfied: wcwidth in /opt/conda/envs/Python-3.8-main/lib/python3.8/site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->ipython>=1.0->ipython-sql) (0.2.5)
+Building wheels for collected packages: prettytable
+  Building wheel for prettytable (setup.py) ... done
+  Created wheel for prettytable: filename=prettytable-0.7.2-py3-none-any.whl size=13700 sha256=8325c5869b4287095aa044a8d95cfc966d067bbb278771b097f2874980386186
+  Stored in directory: /tmp/wsuser/.cache/pip/wheels/48/6d/77/9517cb933af254f51a446f1a5ec9c2be3e45f17384940bce68
+Successfully built prettytable
+Installing collected packages: sqlparse, prettytable, ipython-sql
+Successfully installed ipython-sql-0.4.0 prettytable-0.7.2 sqlparse-0.4.2
+Connect to the database
+Let us first load the SQL extension and establish a connection with the database
+
+%load_ext sql
+The sql extension is already loaded. To reload it, use:
+  %reload_ext sql
+DB2 magic in case of old UI service credentials.
+
+In the next cell enter your db2 connection string. Recall you created Service Credentials for your Db2 instance before. From the uri field of your Db2 service credentials copy everything after db2:// (except the double quote at the end) and paste it in the cell below after ibm_db_sa://
+
+
+in the following format
+
+%sql ibm_db_sa://my-username:my-password@my-hostname:my-port/my-db-name
+
+DB2 magic in case of new UI service credentials.
+
+
+Use the following format.
+
+Add security=SSL at the end
+
+%sql ibm_db_sa://my-username:my-password@my-hostname:my-port/my-db-name?security=SSL
+
+ 
+# bpe61bfd0365e9u4psdglite.db2.cloud.ibm.com
+%sql ibm_db_sa://cdp97036:V7i35CM1WbWe88e1@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb?security=SSL
+Tasks
+Now write and execute SQL queries to solve the assignment tasks.
+
+Task 1
+Display the names of the unique launch sites in the space mission
+%%sql 
+
+select DISTINCT Launch_Site from CDP97036.SPACE
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+launch_site
+CCAFS LC-40
+CCAFS SLC-40
+KSC LC-39A
+VAFB SLC-4E
+Task 2
+Display 5 records where launch sites begin with the string 'CCA'
+%%sql 
+select* from SPACE WHERE Launch_Site LIKE 'KSC%' limit 5
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+DATE	time__utc_	booster_version	launch_site	payload	payload_mass__kg_	orbit	customer	mission_outcome	landing__outcome
+19-02-2017	14:39:00	F9 FT B1031.1	KSC LC-39A	SpaceX CRS-10	2490	LEO (ISS)	NASA (CRS)	Success	Success (ground pad)
+16-03-2017	06:00:00	F9 FT B1030	KSC LC-39A	EchoStar 23	5600	GTO	EchoStar	Success	No attempt
+30-03-2017	22:27:00	F9 FT B1021.2	KSC LC-39A	SES-10	5300	GTO	SES	Success	Success (drone ship)
+01-05-2017	11:15:00	F9 FT B1032.1	KSC LC-39A	NROL-76	5300	LEO	NRO	Success	Success (ground pad)
+15-05-2017	23:21:00	F9 FT B1034	KSC LC-39A	Inmarsat-5 F4	6070	GTO	Inmarsat	Success	No attempt
+Task 3
+Display the total payload mass carried by boosters launched by NASA (CRS)
+%%sql 
+select sum(payload_mass__kg_) from SPACE  where customer LIKE '%CRS%'
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+1
+48213
+Task 4
+Display average payload mass carried by booster version F9 v1.1
+%%sql 
+select avg(payload_mass__kg_) from SPACE  where booster_version='F9 v1.1'
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+1
+2928
+Task 5
+List the date when the first successful landing outcome in ground pad was acheived.
+Hint:Use min function
+
+%%sql
+
+select Date as CAST(Date as DATE)  from  space ;
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+(ibm_db_dbi.ProgrammingError) ibm_db_dbi::ProgrammingError: SQLNumResultCols failed: [IBM][CLI Driver][DB2/LINUXX8664] SQL0104N  An unexpected token "(" was found following "select Date as CAST".  Expected tokens may include:  ",".  SQLSTATE=42601 SQLCODE=-104
+[SQL: select Date as CAST(Date as DATE)  from  space ;]
+(Background on this error at: http://sqlalche.me/e/f405)
+# select MIN() SLO from SPACE where Landing_Outcome = 'Success (drone ship)'"
+Task 6
+List the names of the boosters which have success in drone ship and have payload mass greater than 4000 but less than 6000
+%%sql
+
+select  booster_version from   SPACE  where landing__outcome LIKE '%drone ship%' and payload_mass__kg_>=4000 and payload_mass__kg_<=6000
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+booster_version
+F9 FT B1020
+F9 FT B1022
+F9 FT B1026
+F9 FT B1021.2
+F9 FT B1031.2
+Task 7
+List the total number of successful and failure mission outcomes
+%%sql
+SELECT Count(mission_outcome) from SPACE where mission_outcome LIKE '%Success%'
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+1
+100
+%%sql
+SELECT Count(mission_outcome) from SPACE where mission_outcome  NOT LIKE '%Success%'
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+1
+1
+Task 8
+List the names of the booster_versions which have carried the maximum payload mass. Use a subquery
+%%sql
+
+
+SELECT  booster_version FROM Space  where  payload_mass__kg_ = (Select Max(payload_mass__kg_) from space)
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+booster_version
+F9 B5 B1048.4
+F9 B5 B1049.4
+F9 B5 B1051.3
+F9 B5 B1056.4
+F9 B5 B1048.5
+F9 B5 B1051.4
+F9 B5 B1049.5
+F9 B5 B1060.2
+F9 B5 B1058.3
+F9 B5 B1051.6
+F9 B5 B1060.3
+F9 B5 B1049.7
+Task 9
+List the failed landing_outcomes in drone ship, their booster versions, and launch site names for in year 2015
+%%sql 
+select booster_version,launch_site,landing__outcome,DATE from space where landing__outcome LIKE '%drone%' AND DATE  LIKE '%2015'
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+booster_version	launch_site	landing__outcome	DATE
+F9 v1.1 B1012	CCAFS LC-40	Failure (drone ship)	10-01-2015
+F9 v1.1 B1015	CCAFS LC-40	Failure (drone ship)	14-04-2015
+F9 v1.1 B1018	CCAFS LC-40	Precluded (drone ship)	28-06-2015
+Task 10
+Rank the count of landing outcomes (such as Failure (drone ship) or Success (ground pad)) between the date 2010-06-04 and 2017-03-20, in descending order
+%%sql
+select landing__outcome as OUTCOME,count(landing__outcome) as TOTAL  from space  where DATE>'2010-06-04' AND DATE<='2017-03-20' Group by landing__outcome
+ * ibm_db_sa://cdp97036:***@1bbf73c5-d84a-4bb0-85b9-ab1a4348f4a4.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud:32286/bludb
+Done.
+outcome	total
+Reference Links
+Hands-on Lab : String Patterns, Sorting and Grouping
+
+Hands-on Lab: Built-in functions
+
+Hands-on Lab : Sub-queries and Nested SELECT Statements
+
+Hands-on Tutorial: Accessing Databases with SQL magic
+
+Hands-on Lab: Analyzing a real World Data Set
